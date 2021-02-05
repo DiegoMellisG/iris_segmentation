@@ -61,15 +61,6 @@ class Dataset(tensorflow.keras.utils.Sequence):
 		image_info.update(kwargs)
 		self.image_info.append(image_info)
 
-	def image_reference(self, image_id):
-		"""Return a link to the image in its source Website or details about
-		the image that help looking it up or debugging it.
-
-		Override for your dataset, but pass to this function
-		if you encounter images not in your dataset.
-		"""
-		return ""
-
 	def prepare(self, class_map=None):
 		"""Prepares the Dataset class for use.
 
@@ -89,32 +80,6 @@ class Dataset(tensorflow.keras.utils.Sequence):
 
         # image_ids = [1, 2, 3, 4, ...]
 		self._image_ids = np.arange(self.num_images)
-
-		# Mapping from source class and image IDs to internal IDs
-		self.class_from_source_map = {"{}.{}".format(info['source'], info['id']): id
-									  for info, id in zip(self.class_info, self.class_ids)}
-		self.image_from_source_map = {"{}.{}".format(info['source'], info['id']): id
-									  for info, id in zip(self.image_info, self.image_ids)}
-
-		# Map sources to class_ids they support
-		self.sources = list(set([i['source'] for i in self.class_info]))
-		self.source_class_ids = {}
-		# Loop over datasets
-		for source in self.sources:
-			self.source_class_ids[source] = []
-			# Find classes that belong to this dataset
-			for i, info in enumerate(self.class_info):
-				# Include BG class in all datasets
-				if i == 0 or source == info['source']:
-					self.source_class_ids[source].append(i)
-
-	def map_source_class_id(self, source_class_id):
-		"""Takes a source class ID and returns the int class ID assigned to it.
-
-		For example:
-		dataset.map_source_class_id("coco.12") -> 23
-		"""
-		return self.class_from_source_map[source_class_id]
 
 	def get_source_class_id(self, class_id, source):
 		"""Map an internal class ID to the corresponding class ID in the source dataset."""
@@ -387,15 +352,7 @@ class EyeDataset(Dataset):
 			# Make augmenters deterministic to apply similarly to images and masks
 			det = self.augmentation.to_deterministic()
 			image[bs, ] = det.augment_image(image[bs, ])
-			
-			# for each mask, slow?
-			# for c in range(masks[bs, ].shape[-1]):
-			# 	uint8_mask = masks[bs, ..., c].astype(np.uint8)
-				
-			# 	masks[bs, ..., c] = det.augment_image(
-			# 		uint8_mask, hooks=imgaug.HooksImages(activator=hook)
-			# 	).astype(np.float32)
-			
+		
 			# in one shot
 			masks[bs, ...] = det.augment_image(
 				masks[bs, ...].astype(np.uint8),
