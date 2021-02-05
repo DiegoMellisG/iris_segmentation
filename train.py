@@ -22,7 +22,7 @@ else:
 
 # Create the model with the input_shape"
 
-mdl = Tiramisu(input_shape=(240,320,3))
+mdl = Tiramisu(input_shape=(120,160,3))
 
 # Create optimizer and loss function for compile the model
 
