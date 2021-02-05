@@ -41,7 +41,7 @@ seq = iaa.OneOf([iaa.Affine(rotate=(-30, 30)), iaa.Affine(translate_percent=0.15
 # Prepare all the datasets, this datasets inherit from tensorflow.keras.utils.Sequence
 
 ##### Train dataset #####
-train_dataset = datagenerator.EyeDataset(batch_size=10, dim=(240, 320), augmentation = seq)
+train_dataset = datagenerator.EyeDataset(batch_size=10, dim=(120, 160), augmentation = seq)
 train_dataset.load_eyes('dataset','train')
 train_dataset.prepare()
 
@@ -52,7 +52,7 @@ for i, info in enumerate(train_dataset.class_info):
     print("{:3}. {:50}".format(i, info['name']))
 
 ##### Validation dataset #####
-val_dataset = datagenerator.EyeDataset(batch_size=10, dim=(240, 320))
+val_dataset = datagenerator.EyeDataset(batch_size=10, dim=(120, 160))
 val_dataset.load_eyes('dataset','val')
 val_dataset.prepare()
 
