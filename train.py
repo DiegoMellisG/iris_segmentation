@@ -10,7 +10,7 @@ from keras.callbacks import ModelCheckpoint
 from keras.callbacks import EarlyStopping
 from keras.callbacks import CSVLogger
 
-is_use_gpu = True
+"""is_use_gpu = True
 if is_use_gpu:
   gpu_devices = tf.config.experimental.list_physical_devices('GPU')
   print(len(gpu_devices))
@@ -19,7 +19,10 @@ if is_use_gpu:
   os.environ['TF_USE_CUDNN'] = '1'
 else:
   os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
-
+"""
+gpu_devices = tf.config.experimental.list_physical_devices('GPU')
+for device in gpu_devices:
+    tf.config.experimental.set_memory_growth(device, True)
 # Create the model with the input_shape"
 
 mdl = Tiramisu(input_shape=(120,160,3))
@@ -27,7 +30,7 @@ mdl = Tiramisu(input_shape=(120,160,3))
 # Create optimizer and loss function for compile the model
 
 # This optimizer is use in the paper of Valenzuela et.al (2021)
-opt = keras.optimizers.RMSprop(learning_rate= 0.00001, decay = 0.995)
+opt = keras.optimizers.RMSprop(learning_rate= 1e-3, decay = 0.995)
 
 # The loss used, is Categorical cross entropy due the one-hot-encoding of the masks
 loss = keras.losses.CategoricalCrossentropy(name="categorical_crossentropy")
