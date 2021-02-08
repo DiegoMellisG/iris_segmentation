@@ -91,6 +91,7 @@ plt.ylabel('loss')
 plt.xlabel('epoch')
 plt.legend(['train', 'val'], loc='upper left')
 plt.savefig('loss_vs_epochs.png')
+plt.clf()
 
 plt.plot(history.history['accuracy'])
 plt.plot(history.history['val_accuracy'])
