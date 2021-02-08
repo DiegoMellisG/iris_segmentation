@@ -30,7 +30,7 @@ mdl = Tiramisu(input_shape=(120,160,3))
 # Create optimizer and loss function for compile the model
 
 # This optimizer is use in the paper of Valenzuela et.al (2021)
-opt = keras.optimizers.RMSprop(learning_rate= 1e-3, decay = 0.995)
+opt = keras.optimizers.RMSprop(learning_rate= 0.0001)
 
 # The loss used, is Categorical cross entropy due the one-hot-encoding of the masks
 loss = keras.losses.CategoricalCrossentropy(name="categorical_crossentropy")
@@ -73,7 +73,7 @@ model_checkpoint = ModelCheckpoint(filepath=checkpoint_path+'fc_densenet_4_3_4_e
                                     mode='auto',
                                     period=1)
 
-early_stopping = EarlyStopping(monitor= 'val_loss', patience= 20, verbose = 1)
+early_stopping = EarlyStopping(monitor= 'val_loss', patience= 30, verbose = 1)
 
 csv_logger = CSVLogger(filename=logs+'fc_densenet_4_3_4_training_log.csv', separator=',',append=True)
 
