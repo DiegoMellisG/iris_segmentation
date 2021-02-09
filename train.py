@@ -34,9 +34,9 @@ opt = keras.optimizers.RMSprop(learning_rate= 0.0001)
 
 # The loss used, is Categorical cross entropy due the one-hot-encoding of the masks
 loss = keras.losses.CategoricalCrossentropy(name="categorical_crossentropy")
-
+m_iou = tf.keras.MeanIoU(num_classes = 4)
 # Compile the model
-mdl.compile(loss = loss, optimizer = opt, metrics = ['accuracy'])
+mdl.compile(loss = loss, optimizer = opt, metrics = [m_iou])
 
 # Do the augmenters for training dataset
 seq = iaa.OneOf([iaa.Affine(rotate=(-30, 30)), iaa.Affine(translate_percent=0.15),iaa.Affine(scale={"x": (0.5, 1.5), "y": (0.5, 1.5)})])
