@@ -2,6 +2,8 @@ import datagenerator
 import matplotlib.pyplot as plt
 import argparse
 from keras.models import load_model
+import numpy as np
+import os
 
 iris = [255,128,0]
 pupil = [0,255,0]
@@ -33,7 +35,7 @@ def main():
     trained_model = load_model(trained_model_filename)
 
     # Load Test Dataset
-    test_dataset = datagenerator.EyeDataset(batch_size=8, dim=(240, 320), shuffle = False)
+    test_dataset = datagenerator.EyeDataset(batch_size=10, dim=(120, 160), shuffle = False)
     test_dataset.load_eyes('dataset','test')
     test_dataset.prepare()
     print("Image Count (Test): {}".format(len(test_dataset.image_ids)))
