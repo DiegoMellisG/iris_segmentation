@@ -34,7 +34,7 @@ opt = keras.optimizers.RMSprop(learning_rate= 0.0001)
 
 # The loss used, is Categorical cross entropy due the one-hot-encoding of the masks
 loss = keras.losses.CategoricalCrossentropy(name="categorical_crossentropy")
-m_iou = tf.keras.MeanIoU(num_classes = 4)
+m_iou = tf.keras.metrics.MeanIoU(num_classes = 4)
 # Compile the model
 mdl.compile(loss = loss, optimizer = opt, metrics = [m_iou])
 
@@ -45,7 +45,7 @@ seq = iaa.OneOf([iaa.Affine(rotate=(-30, 30)), iaa.Affine(translate_percent=0.15
 
 ##### Train dataset #####
 train_dataset = datagenerator.EyeDataset(batch_size=10, dim=(120, 160), augmentation = seq)
-train_dataset.load_eyes('dataset','train')
+train_dataset.load_eyes('60_20_20/dataset','train')
 train_dataset.prepare()
 
 print("Image Count (Training): {}".format(len(train_dataset.image_ids)))
@@ -56,7 +56,7 @@ for i, info in enumerate(train_dataset.class_info):
 
 ##### Validation dataset #####
 val_dataset = datagenerator.EyeDataset(batch_size=10, dim=(120, 160))
-val_dataset.load_eyes('dataset','val')
+val_dataset.load_eyes('60_20_20/dataset','val')
 val_dataset.prepare()
 
 print("Image Count (Validation): {}".format(len(val_dataset.image_ids)))
