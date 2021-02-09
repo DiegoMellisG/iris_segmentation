@@ -59,7 +59,13 @@ def main():
 
     pred = trained_model.predict(test_dataset)
     iou_df = generate_dataframe(test_dataset, pred)
-    iou_df.to_csv('IoU.csv')
+
+    if not os.path.isdir("CSV"):
+        os.makedirs("CSV"))
+    
+    iou_df.to_csv('CSV/IoU.csv')
+
+    
     
 if __name__ == '__main__':
     main()
