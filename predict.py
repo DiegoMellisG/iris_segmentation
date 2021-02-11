@@ -46,7 +46,7 @@ def main():
     # Check inputs
     if not os.path.exists(trained_model_filename):
         print('Not found:', trained_model_filename)
-        sys.exit(-1)
+       
     
     # Load the model
     trained_model = load_model(trained_model_filename)
@@ -61,7 +61,7 @@ def main():
     iou_df = generate_dataframe(test_dataset, pred)
 
     if not os.path.isdir("CSV"):
-        os.makedirs("CSV"))
+        os.makedirs("CSV")
     
     iou_df.to_csv('CSV/IoU.csv')
 

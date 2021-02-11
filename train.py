@@ -9,6 +9,7 @@ from imgaug import augmenters as iaa
 from keras.callbacks import ModelCheckpoint
 from keras.callbacks import EarlyStopping
 from keras.callbacks import CSVLogger
+from keras.models import load_model
 
 """is_use_gpu = True
 if is_use_gpu:
@@ -34,9 +35,8 @@ opt = keras.optimizers.RMSprop(learning_rate= 0.0001)
 
 # The loss used, is Categorical cross entropy due the one-hot-encoding of the masks
 loss = keras.losses.CategoricalCrossentropy(name="categorical_crossentropy")
-m_iou = tf.keras.metrics.MeanIoU(num_classes = 4)
 # Compile the model
-mdl.compile(loss = loss, optimizer = opt, metrics = [m_iou])
+mdl.compile(loss = loss, optimizer = opt, metrics = ['accuracy'])
 
 # Do the augmenters for training dataset
 seq = iaa.OneOf([iaa.Affine(rotate=(-30, 30)), iaa.Affine(translate_percent=0.15),iaa.Affine(scale={"x": (0.5, 1.5), "y": (0.5, 1.5)})])
@@ -63,6 +63,12 @@ print("Image Count (Validation): {}".format(len(val_dataset.image_ids)))
 
 
 # Model callbacks
+if not os.path.isdir("logs"):
+	os.makedirs("logs")
+
+if not os.path.isdir("checkpoints"):
+        os.makedirs("checkpoints")
+
 checkpoint_path = 'checkpoints/'
 logs = 'logs/'
 model_checkpoint = ModelCheckpoint(filepath=checkpoint_path+'fc_densenet_4_3_4_epoch-{epoch:02d}_loss-{loss:.4f}_val_loss-{val_loss:.4f}.h5',
@@ -83,7 +89,6 @@ callbacks = [model_checkpoint, csv_logger, early_stopping]
 EPOCHS = 200
 history = mdl.fit(train_dataset, validation_data=val_dataset, epochs=EPOCHS, callbacks = callbacks) 
 
-
 plt.plot(history.history['loss'])
 plt.plot(history.history['val_loss'])
 plt.title('Loss FC-Densenet')
@@ -93,10 +98,10 @@ plt.legend(['train', 'val'], loc='upper left')
 plt.savefig('loss_vs_epochs.png')
 plt.clf()
 
-plt.plot(history.history['mean_io_u_1'])
-plt.plot(history.history['val_mean_io_u_1'])
-plt.title('Mean IoU FC-Densenet')
-plt.ylabel('Mean IoU')
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('Accuracy FC-Densenet')
+plt.ylabel('Accuracy')
 plt.xlabel('epoch')
 plt.legend(['train', 'val'], loc='upper left')
-plt.savefig('mean_iou_vs_epochs.png')
+plt.savefig('accuracy_vs_epochs.png')
