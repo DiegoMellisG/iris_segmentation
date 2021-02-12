@@ -13,7 +13,7 @@ def class_mean_iou(pred, label):
     label = np.argmax(label, axis=-1)
     unique_labels = np.unique(label)
     num_unique_labels = len(unique_labels)
-
+    print(num_unique_labels)
     I = np.zeros(num_unique_labels)
     U = np.zeros(num_unique_labels)
     class_iou = []

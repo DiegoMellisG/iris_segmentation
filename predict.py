@@ -26,10 +26,10 @@ def generate_dataframe(dataset, predictions):
     class_ious = []
     for img_batches, mask_batches in dataset:
         for i in range(len(img_batches)):
-            class_m_iou = class_mean_iou(mask_batch[i], predictions[image_id])
+            class_m_iou = class_mean_iou(predictions[image_id], mask_batches[i])
             class_m_iou['filename'] = dataset.image_info[image_id]['id'][:-4]
-            pred_img = colour_codes[np.argmax(pred[image_id], axis = -1).astype(int)]
-            gt_img = colour_codes[np.argmax(mask_batch[i], axis = -1).astype(int)]
+            pred_img = colour_codes[np.argmax(predictions[image_id], axis = -1).astype(int)]
+            gt_img = colour_codes[np.argmax(mask_batches[i], axis = -1).astype(int)]
             class_m_iou['pred_img'] = pred_img
             class_m_iou['gt_img'] = gt_img
             class_ious.append(class_m_iou)
@@ -56,7 +56,7 @@ def main():
     test_dataset.load_eyes('60_20_20/dataset','test')
     test_dataset.prepare()
     print("Image Count (Test): {}".format(len(test_dataset.image_ids)))
-
+    print(test_dataset.class_info)
     pred = trained_model.predict(test_dataset)
     iou_df = generate_dataframe(test_dataset, pred)
 
