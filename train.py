@@ -79,11 +79,11 @@ model_checkpoint = ModelCheckpoint(filepath=checkpoint_path+'fc_densenet_4_3_4_e
                                     mode='auto',
                                     period=1)
 
-early_stopping = EarlyStopping(monitor= 'val_loss', patience= 30, verbose = 1)
+#early_stopping = EarlyStopping(monitor= 'val_loss', patience= 30, verbose = 1)
 
 csv_logger = CSVLogger(filename=logs+'fc_densenet_4_3_4_training_log.csv', separator=',',append=True)
 
-callbacks = [model_checkpoint, csv_logger, early_stopping]
+callbacks = [model_checkpoint, csv_logger]
 #### START THE TRAINING ####
 
 EPOCHS = 200
