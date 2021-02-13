@@ -5,6 +5,7 @@ import numpy as np
 import keras
 import datagenerator
 import matplotlib.pyplot as plt
+import argparse
 from imgaug import augmenters as iaa
 from keras.callbacks import ModelCheckpoint
 from keras.callbacks import EarlyStopping
@@ -30,7 +31,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--num_epochs', type=int, default=300, help='Number of epochs to train for')
     parser.add_argument('--learning_rate', type=float, default = 0.0001)
-    parser.add_argument('--growth_rate', type=float, default = 16)
+    parser.add_argument('--growth_rate', type=int, default = 16)
     parser.add_argument('--date', type = str)
     args = parser.parse_args()
 
