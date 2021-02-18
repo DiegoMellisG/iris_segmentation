@@ -48,7 +48,8 @@ def main():
     mdl.compile(loss = loss, optimizer = opt, metrics = ['accuracy'])
 
     # Do the augmenters for training dataset
-    seq = iaa.OneOf([iaa.Affine(rotate=(-30, 30)), iaa.Affine(translate_percent=0.15),iaa.Affine(scale={"x": (0.5, 1.5), "y": (0.5, 1.5)})])
+    seq = iaa.OneOf([iaa.Affine(rotate=(-30, 30)), iaa.Affine(translate_percent=0.15),iaa.Affine(scale={"x": (0.5, 1.5), "y": (0.5, 1.5)}), 
+    iaa.GaussianBlur(sigma=(0.0, 3.0), iaa.MultiplyBrightness((0.5, 1.5))])
 
     # Prepare all the datasets, this datasets inherit from tensorflow.keras.utils.Sequence
 
