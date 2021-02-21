@@ -49,7 +49,7 @@ def main():
 
     # Do the augmenters for training dataset
     seq = iaa.OneOf([iaa.Affine(rotate=(-30, 30)), iaa.Affine(translate_percent=0.15),iaa.Affine(scale={"x": (0.5, 1.5), "y": (0.5, 1.5)}), 
-    iaa.GaussianBlur(sigma=(0.0, 3.0), iaa.MultiplyBrightness((0.5, 1.5))])
+    iaa.GaussianBlur(sigma=(0.0, 3.0)), iaa.MultiplyBrightness((0.5, 1.5))])
 
     # Prepare all the datasets, this datasets inherit from tensorflow.keras.utils.Sequence
 
@@ -97,7 +97,7 @@ def main():
     #### START THE TRAINING ####
 
     EPOCHS = 200
-    history = mdl.fit(train_dataset, validation_data=val_dataset, epochs=EPOCHS, callbacks = callbacks) 
+    history = mdl.fit(train_dataset, validation_data=val_dataset, epochs=args.num_epochs, callbacks = callbacks) 
 
     plt.plot(history.history['loss'])
     plt.plot(history.history['val_loss'])
